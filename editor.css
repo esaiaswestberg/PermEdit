@@ -1,0 +1,211 @@
+.autocomplete {
+	/*the container must be positioned relative:*/
+	position: relative;
+	display: inline-block;
+}
+
+.autocomplete-items {
+	position: absolute;
+	border: 1px solid #d4d4d4;
+	border-bottom: none;
+	border-top: none;
+	z-index: 99;
+	/*position the autocomplete items to be the same width as the container:*/
+	top: 100%;
+	left: 0;
+	right: 0;
+
+	max-height: 150px;
+	overflow-y: auto;
+}
+
+.autocomplete-items div {
+	padding: 10px;
+	cursor: pointer;
+	background-color: #fff;
+	border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+	/*when hovering an item:*/
+	background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+	/*when navigating through the items using the arrow keys:*/
+	background-color: DodgerBlue !important;
+	color: #ffffff;
+}
+
+.creator_link, .twitter_link, .github_link {
+	position: absolute;
+	left: 135px;
+	top: 22px;
+	font-size: 9pt;
+	z-index: 1;
+	color: #888;
+	transition: all .2s ease-out;
+}
+
+.twitter_link, .github_link {
+	left: auto;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 15px;
+	padding-bottom: 4px;
+	font-size: 12pt;
+}
+
+.twitter_link {
+	right: 75px;
+}
+
+.creator_link:hover, .github_link:hover, .twitter_link:hover {
+	text-decoration: none;
+	color: #AAA;
+}
+
+::-webkit-scrollbar-button { display: none; height: 13px; border-radius: 0px; background-color: #AAA; }
+::-webkit-scrollbar-button:hover { background-color: #AAA; }
+::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, .25); border-radius: 0px; }
+::-webkit-scrollbar-thumb:hover { background-color: rgba(0, 0, 0, .9); }
+::-webkit-scrollbar-track { background-color: rgba(255, 255, 255, .1); }
+::-webkit-scrollbar-track:hover { background-color: rgba(255, 255, 255, .2); }
+::-webkit-scrollbar { width: 2px; height: 2px; }
+
+.inputButtonCombo {
+	position: relative;
+}
+
+.inputButtonCombo > input {
+	display: inline-block;
+	width: calc(100% - 60px);
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.inputButtonCombo > button {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 60px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+
+.ns {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 600px;
+    max-width: 100%;
+    max-height: 90%;
+    overflow-y: auto;
+    transform: translateX(-50%) translateY(-50%);
+    padding: 20px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 0px 2000000px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 0px 200000px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 0px 200000px rgba(0,0,0,0.75);
+	background-color: #FFF;
+    display: none;
+	z-index: 9;
+}
+
+.editor {
+	position: absolute;
+	left: 50%;
+	top: 56px;
+	width: 100%;
+	height: calc(100% - 56px);
+	max-width: 1200px;
+	transform: translateX(-50%);
+	overflow-y: auto;
+	border-left: 1px #EEE solid;
+	border-right: 1px #EEE solid;
+}
+
+.permListNav {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+
+.edit-btn {
+	opacity: .5;
+	transition: opacity .2s ease-out;
+	cursor: pointer;
+}
+
+.edit-btn:hover { opacity: 1; }
+
+.guPermissionsList {
+	position: absolute;
+	top: 60px;
+}
+
+.guPermissionsList > tbody > tr { transition: .2s ease-out background-color; }
+
+.guPermissionsList > tbody > tr:hover {
+	cursor: pointer;
+	background-color: #EEE;
+}
+
+.guPermissionsList > tbody > #createNew { background-color: #FAFAFA; }
+.guPermissionsList > tbody > #createNew:hover { background-color: #EEE; }
+.guPermissionsList > tbody > #createNew > th, .guPermissionsList > tbody > #createNew > td
+{ font-size: 10pt; padding-top: 6px; padding-bottom: 6px; }
+
+.permissionsList {
+	position: relative;
+	background-clip: padding-box;
+	border: rgb(206, 212, 218) solid 1px;
+	border-radius: 4px;
+	color: rgb(73, 80, 87);
+	display: block;
+	overflow-y: auto;
+	width: 100%;
+	min-height: 36px;
+	max-height: 150px;
+	word-spacing: 0px;
+}
+
+.permissionsList > i {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translateX(-50%) translateY(calc(-50% - 2px));
+	font-size: 10pt;
+	opacity: .5;
+	width: 100%;
+	text-align: center;
+}
+
+.permissionsList > span {
+	position: relative;
+	display: block;
+	padding: 6px 12px;
+	background: #FFF;
+	cursor: pointer;
+	transition: ease-out .2s background;
+}
+
+.permissionsList > span > i {
+	position: absolute;
+	right: 5px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 16pt;
+	opacity: 0;
+	transition: ease-out .2s opacity;
+}
+
+.permissionsList > span:hover { background: #F6F6F6; }
+.permissionsList > span:hover i { opacity: 1; }

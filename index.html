@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="editor.css">
+
+		<!-- Other things -->
+		<title>PermEdit - PermissionsEX Permissions YML Editor</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+		<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+	</head>
+	<body>
+        <!-- Navigation-bar -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light ns">
+			<a class="navbar-brand"><img src="logo.svg" width="30" height="30" class="d-inline-block align-top" alt=""> PermEdit</a>
+			<a target="_blank" href="https://twitter.com/esaias_tilly" class="creator_link">by Esaias Tilly</a>
+			<a target="_blank" href="https://twitter.com/esaias_tilly" class="twitter_link">Twitter</a>
+			<a target="_blank" href="https://github.com/EsaiasTilly/PermEdit" class="github_link">GitHub</a>
+		</nav>
+
+        <!-- Load Permissions.yml Popup -->
+        <form class="popup ns loadYMLInputPopup" style="display: block;" onsubmit="event.preventDefault();">
+            <!-- YML Input Textarea -->
+        	<div class="form-group">
+                <label for="permissionsYMLInput">Permissions.yml</label>
+                <textarea class="form-control" id="permissionsYMLInput" rows="15" placeholder="groups:"></textarea>
+            </div>
+
+            <!-- Load Buttons -->
+            <button onclick="load(false);" class="btn btn-primary">Load YML</button>
+            <button onclick="load(true);" type="submit" class="btn">Load default</button>
+        </form>
+
+		<!-- New Permission Group Popup -->
+        <form class="popup ns newPermissionGroupPopup" style="display: none;" onsubmit="event.preventDefault();">
+            <!-- Group Name Text Input -->
+        	<div class="form-group"><label for="npgpGroupName">Group name</label><input type="text" class="form-control" id="npgpGroupName" placeholder=""></div>
+            <!-- Default Group Select -->
+        	<div class="form-group"><label for="npgpDefaultGroup">Default group</label><select class="form-control" id="npgpDefaultGroup"><option value="true">Yes</option><option selected value="false">No</option></select></div>
+            <!-- Save and Cancel Buttons -->
+            <button type="submit" class="btn btn-primary" onclick="createPermissionsGroup(true);">Create group</button>
+            <button type="submit" class="btn" onclick="$('.newPermissionGroupPopup').fadeOut(200);">Cancel</button>
+        </form>
+
+		<!-- Permssions Editor -->
+		<form class="popup ns permissionsEditorPopup" style="display: none;" onsubmit="event.preventDefault();">
+            <!-- Permission User / Group Name -->
+        	<div class="form-group"><label for="pepName">Name</label><input type="text" class="form-control" id="pepName" placeholder=""></div>
+            <!-- User / Group Prefix -->
+        	<div class="form-group"><label for="pepPrefix">Prefix</label><input type="text" class="form-control" id="pepPrefix" placeholder=""></div>
+            <!-- User / Group Suffix -->
+        	<div class="form-group"><label for="pepSuffix">Suffix</label><input type="text" class="form-control" id="pepSuffix" placeholder=""></div>
+			<!-- Add Permssion Input -->
+			<div class="form-group"><label for="pepAddPermission">Add Permission</label><div class="autocomplete inputButtonCombo" style="width: 100%;"><input type="text" autocomplete="off" class="form-control" id="pepAddPermission" placeholder="modifyworld.*"><button onclick="addPermission();" type="submit" class="btn btn-success">Add</button></div></div>
+            <!-- Permissions List -->
+        	<div class="form-group"><label for="pepPermissionsList">Permissions</label><div id="pepPermissionsList" class="permissionsList"></div></div>
+            <!-- Save and Cancel Buttons -->
+            <button type="submit" class="btn btn-primary" onclick="savePermissionEditor();">Save</button>
+            <button type="submit" class="btn" onclick="cancelPermissonEditor();">Cancel</button>
+            <button type="submit" style="float: right;" class="btn btn-danger" onclick="removePermissionsEditor();">Remove</button>
+        </form>
+
+		<!-- Editor -->
+		<div class="editor ns">
+			<!-- Permissions List Navbar -->
+			<nav class="permListNav">
+				<ul class="pagination">
+					<li onclick="loadGroupPermissionsList();" class="page-item gplpi active"><span class="page-link">Group permissions</span></li>
+					<li onclick="loadUserPermissionsList();" class="page-item uplpi"><span class="page-link">User permissions</span></li>
+					<li onclick="exportYML();" class="page-item"><span class="page-link">Export</span></li>
+				</ul>
+			</nav>
+
+			<!-- Group List -->
+			<table class="table guPermissionsList groupPermissionsList">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">Group name</th>
+						<th scope="col">Default</th>
+						<th scope="col">Permissions</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+
+			<!-- User List -->
+			<table class="table guPermissionsList userPermissionsList" style="display: none;">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col">IGN</th>
+						<th scope="col">UUID</th>
+						<th scope="col">Permissions</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+        <!-- Template Form Popup -->
+        <form class="popup ns">
+            <!-- Text Input -->
+        	<div class="form-group"><label for="exampleFormControlInput1">Username</label><input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Minecraft IGN"></div>
+            <!-- Dropdown Select -->
+        	<div class="form-group"><label for="exampleFormControlSelect1">Example select</label><select class="form-control" id="exampleFormControlSelect1"><option>1</option><option>2</option></select></div>
+            <!-- Textarea -->
+        	<div class="form-group"><label for="exampleFormControlTextarea1">Example textarea</label><textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea></div>
+            <!-- Save and Cancel Buttons -->
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn">Cancel</button>
+        </form>
+
+		<!-- jQuery first, then Popper.js, then Bootstrap JS, then Permssions.js -->
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/esprima/2.7.3/esprima.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.13.1/js-yaml.min.js"></script>
+		<script src="editor.js"></script>
+		<script src="permissions.js"></script>
+	</body>
+</html>
