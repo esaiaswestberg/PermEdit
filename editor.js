@@ -20,6 +20,7 @@ function load(loadDefault = false) {
         //Fix Normal Problems
         if(!permissions.groups) permissions.groups = {}; //Create A Group Object Array, If No Group Object Array Exists
         if(!permissions.users) permissions.users = {}; //Create A User Object Array, If No User Object Array Exists
+        fixPermissionsProblems();
 
         //Start Loading The Permissions Lists
         loadGroupPermissionsList();
@@ -29,6 +30,21 @@ function load(loadDefault = false) {
     } catch (e) { console.error(e); }
     if(error != '') console.error(error);
     if(error != '') alert(error);
+}
+
+//Fix All Permissions
+function fixPermissionsProblems() {
+    let groups = Object.keys(permissions.groups); //Get All Group Keys
+    for(let i = 0; i < groups.length; i++) { //Loop Through All Group Keys
+        if(!permissions.groups[groups[i]].options) permissions.groups[groups[i]].options = {}; //Make Sure That An Options Object Exists
+        if(!permissions.groups[groups[i]].permissions) permissions.groups[groups[i]].permissions = []; //Make Sure That A Permissions Array Exists
+    }
+
+    let users = Object.keys(permissions.users); //Get All User Keys
+    for(let i = 0; i < users.length; i++) { //Loop Through All User Keys
+        if(!permissions.users[users[i]].options) permissions.users[users[i]].options = {}; //Make Sure That An Options Object Exists
+        if(!permissions.users[users[i]].permissions) permissions.users[users[i]].permissions = []; //Make Sure That A Permissions Array Exists
+    }
 }
 
 //Load The HTML For The Group Permissions List
